@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Find My Book</string>
+    <string name="instructions">Điền tên sách vào và tui sẽ tìm cho (^.^) </string>
+    <string name="button_text">Search Books</string>
+    <string name="input_hint">Book Title</string>
+    <string name="no_results">No results</string>
+    <string name="no_search_term">Please enter a search term</string>
+    <string name="no_network">Please check your network connection and try again.</string>
+    <string name="loading">Loading</string>
+    <string name="about_this_book">About this book</string>
+
+    <array name="book_images">
+        <item>@drawable/img_book0</item>
+        <item>@drawable/img_book1</item>
+        <item>@drawable/img_book2</item>
+        <item>@drawable/img_book3</item>
+    </array>
+</resources>

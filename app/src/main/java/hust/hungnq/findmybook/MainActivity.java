@@ -1,0 +1,124 @@
+package hust.hungnq.findmybook;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
+    private TextView mWarning;
+    private ImageView mWarningImage;
+    private EditText mBookInput;
+    private String bookTitle;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        Log.d("myTag", "onCreate");
+
+        mWarning = findViewById(R.id.warningText);
+        mWarningImage = findViewById(R.id.warningImage);
+        mBookInput = findViewById(R.id.bookInput);
+
+        if(getSupportLoaderManager().getLoader(0)!=null){
+            getSupportLoaderManager().initLoader(0,null,this);
+        }
+
+    }
+
+    public void searchBooks(View view) {
+        //get text input
+        bookTitle = mBookInput.getText().toString();
+
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        //hide the keyboard
+        if (inputManager != null) {
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
+        //check internet connection
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connMgr != null) {
+            networkInfo = connMgr.getActiveNetworkInfo();
+        }
+
+        if (networkInfo != null && networkInfo.isConnected() && bookTitle.length() != 0) {
+            // have internet connection
+            Bundle queryBundle = new Bundle();
+            queryBundle.putString("queryString", bookTitle);
+            getSupportLoaderManager().restartLoader(0, queryBundle, this);
+
+            mWarning.setText(R.string.loading);
+            mWarning.setVisibility(View.VISIBLE);
+            Glide.with(this).load(R.drawable.img_loading).into(mWarningImage);
+            //Glide.with(getApplicationContext()).load(R.drawable.warning_no_title).into(mWarningImage);
+
+        } else {
+            if (bookTitle.length() == 0) {
+                mWarning.setText(R.string.no_search_term);
+                mWarning.setVisibility(View.VISIBLE);
+                Glide.with(getApplicationContext()).load(R.drawable.warning_no_title).into(mWarningImage);
+            } else {
+                mWarning.setText(R.string.no_network);
+                mWarning.setVisibility(View.VISIBLE);
+                Glide.with(this).load(R.drawable.warning_no_internet).into(mWarningImage);
+            }
+        }
+
+    }
+
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+        String queryString = bookTitle;
+
+        return new BookLoader(this, queryString);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+        //create intent
+        Intent intent = new Intent(this, SearchResultActivity.class);
+        intent.putExtra("data", data);
+        startActivity(intent);
+
+        //Destroy Loader
+        if (getSupportLoaderManager().hasRunningLoaders() == true) getSupportLoaderManager().destroyLoader(0);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mBookInput.setText("");
+        bookTitle = "";
+        mWarning.setText("");
+        mWarning.setVisibility(View.INVISIBLE);
+        Glide.with(this).load(R.drawable.img_cute).into(mWarningImage);
+    }
+
+}

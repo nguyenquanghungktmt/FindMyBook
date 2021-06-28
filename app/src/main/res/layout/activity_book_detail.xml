@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".BookDetailActivity">
+
+        <ImageView
+            android:id="@+id/bookImageDetail"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/img_book1"
+            android:scaleType="centerInside"
+            android:transitionName="image"
+            android:padding="1dp"
+            android:background="@drawable/vien"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/titleDetail"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:gravity="left"
+            android:orientation="vertical"
+            android:text="Title BookTitle BookTitle BookTitle BookTitle Book"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/bookImageDetail"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/authorsDetail"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Authors"
+            android:gravity="left"
+            android:textColor="?android:textColorSecondary"
+            app:layout_constraintStart_toEndOf="@+id/bookImageDetail"
+            app:layout_constraintTop_toBottomOf="@+id/titleDetail" />
+
+        <TextView
+            android:id="@+id/about"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/about_this_book"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bookImageDetail" />
+
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/instructions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/about" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
