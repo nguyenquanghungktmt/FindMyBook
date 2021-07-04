@@ -3,6 +3,7 @@ package hust.hungnq.findmybook;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.loader.app.LoaderManager;
@@ -13,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -49,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if(getSupportLoaderManager().getLoader(0)!=null){
             getSupportLoaderManager().initLoader(0,null,this);
         }
-
     }
 
     public void searchBooks(View view) {
@@ -139,11 +140,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.about:
+                showAboutDialog();
                 Toast.makeText(getApplicationContext(), "Created by Kircpp", Toast.LENGTH_SHORT).show();
             default:
                 //do nothing
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showAboutDialog(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("About");
+        dialog.setMessage("Created by kiracpp. All right reserved.");
+        dialog.setIcon(R.drawable.ic_dialog);
+
+        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }) ;
+
+        dialog.show();
     }
 
 }
