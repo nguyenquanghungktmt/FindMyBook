@@ -2,9 +2,15 @@ package hust.hungnq.findmybook;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,27 +18,29 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
     private TextView mWarning;
     private ImageView mWarningImage;
     private EditText mBookInput;
     private String bookTitle;
+    private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        Log.d("myTag", "onCreate");
 
         mWarning = findViewById(R.id.warningText);
         mWarningImage = findViewById(R.id.warningImage);
@@ -119,6 +127,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mWarning.setText("");
         mWarning.setVisibility(View.INVISIBLE);
         Glide.with(this).load(R.drawable.img_cute).into(mWarningImage);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.about:
+                Toast.makeText(getApplicationContext(), "Created by Kircpp", Toast.LENGTH_SHORT).show();
+            default:
+                //do nothing
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

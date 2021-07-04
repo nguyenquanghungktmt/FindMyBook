@@ -12,8 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FindMyBook">
-        <activity android:name=".BookDetailActivity"></activity>
-        <activity android:name=".SearchResultActivity" />
+
+        <activity android:name=".BookDetailActivity"
+            android:label="Book Detail Activity">
+        </activity>
+
+        <activity android:name=".SearchResultActivity"
+            android:label="Search Result Activity"
+            android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

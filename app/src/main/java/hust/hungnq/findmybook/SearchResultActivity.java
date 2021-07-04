@@ -36,8 +36,13 @@ public class SearchResultActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mBookList.clear();
-        }
-        else processJsonData(dataJson);
+
+            int count = savedInstanceState.getInt("number");
+            for (int i = 0; i < count; i++) {
+                Book book = (Book) savedInstanceState.getSerializable("book" + i);
+                mBookList.add(book);
+            }
+        } else processJsonData(dataJson);
     }
 
     private void startRecyclerBook() {
@@ -85,14 +90,14 @@ public class SearchResultActivity extends AppCompatActivity {
                     JSONArray authorArray = volumeInfo.getJSONArray("authors");
                     authors = "";
                     int j = 0;
-                    for (; j < authorArray.length()-1; j++) {
+                    for (; j < authorArray.length() - 1; j++) {
                         authors += authorArray.getString(j) + ", ";
                     }
                     authors += authorArray.getString(j);
                     Log.d("myTag", authors);
 
                     description = volumeInfo.getString("description");
-                    if  (authors != null && title != null)
+                    if (authors != null && title != null)
                         mBookList.addLast(new Book(title, authors, bookImages.getResourceId(new Random().nextInt(4), 0), description));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -121,7 +126,7 @@ public class SearchResultActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        for (Book book : mBookList){
+        for (Book book : mBookList) {
             outState.putSerializable("book" + mBookList.indexOf(book), book);
         }
         outState.putInt("number", mBookList.size());
